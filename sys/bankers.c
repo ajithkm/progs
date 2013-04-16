@@ -1,0 +1,118 @@
+#include<stdio.h>
+main()
+{	
+	int p,r,i,j,count,safe,exec,claim[5],cur[5][5],max[5][5],avail[5];
+	int alloc[5]={0,0,0,0,0};
+	int running[5]={1,1,1,1,1};
+	printf("Enter the number of processes : ");
+	scanf("%d",&p);
+	count=p;
+	printf("Enter the number of resources : ");
+	scanf("%d",&r);
+	printf("Enter the claim vector: ");
+	for(i=0;i<r;++i)
+		scanf("%d",&claim[i]);
+	
+	printf("Enter the currently allocated resources: ");
+	for(i=0;i<p;++i)
+		for(j=0;j<r;j++)
+			scanf("%d",&cur[i][j]);
+	
+	
+	printf("Enter the Maximum claim: ");
+	for(i=0;i<p;++i)
+		for(j=0;j<r;j++)
+			scanf("%d",&max[i][j]);
+	
+	
+	printf("\nThe claim vector : ");
+	for(i=0;i<r;++i)
+		printf("%d\t",claim[i]);
+	
+	printf("\nThe currently allocated resources: ");
+	for(i=0;i<p;++i)
+		{
+		printf("\n");
+		for(j=0;j<r;j++)
+			printf("%d\t",cur[i][j]);
+		}
+	
+	
+	printf("\nThe Maximum claim table: ");
+	for(i=0;i<p;++i)
+		{
+		printf("\n");
+		for(j=0;j<r;j++)
+			printf("%d\t",max[i][j]);
+		}
+	/*
+	for(i=0;i<p;i++)
+		for(j=0;j<r;j++)
+			alloc[j]+=cur[i][j];
+	
+	printf("\nAllocated Resources : ");
+	for(i=0;i<r;i++)
+		printf("\t%d",alloc[i]);
+	
+	printf("\nAvailable Resources : ");
+	/*for(i=0;i<r;i++)
+		{
+		avail[i]=claim[i]-alloc[i];
+		//printf("%d\t",avail[i]);
+		}
+*/		
+	for(i=0;i<p;i++)
+   		for(j=0;j<r;j++) 
+   			alloc[j]+=cur[i][j];
+  	printf("\nAllocated resources:");
+  	for(i=0;i<r;i++) 
+  		printf("\t%d",alloc[i]);
+  	for(i=0;i<r;i++) 
+  		avail[i]=claim[i]-alloc[i];
+  	printf("\nAvailable resources:");
+  	for(i=0;i<r;i++) 
+  		printf("\t%d",avail[i]);
+	printf("\n");
+	
+	while(count!=0)
+	{	
+		safe=0;
+		for(i=0;i<p;i++)
+		{
+		if(running[i])
+			{
+			exec=1;
+			for(j=0;j<r;j++)
+				{
+				if(max[i][j]-cur[i][j]>avail[i])
+					{
+					exec=0;
+					break;
+					}
+				}	
+			if(exec)
+				{
+				printf("Process %d executes .",i+1);
+				running[i]=0;
+				safe=1;
+				--count;
+				for(j=0;j<r;j++)
+					avail[j]+=cur[i][j];
+				break;
+				}
+			}
+		}
+		if(!safe)
+			{
+			printf("\nNot safe");
+			break;
+			}
+		else
+			printf("\n Safe");
+		printf("\n Avaialable : ");
+		for(j=0;j<r;j++)
+			printf("%d",avail[j]);
+	}					
+				
+}
+

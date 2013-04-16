@@ -1,0 +1,14 @@
+#include<stdio.h>
+#include<sys/vfs.h>
+main()
+{
+	struct statfs info;
+	int status;
+	status=statfs("/dev/sdb1",&info);
+	printf("\ntype : %s",info.f_type);
+	printf("\ndata blocks : %s",info.f_blocks);
+	printf("\nfree : %s",info.f_bfree);
+	printf("\nfiles : %s",info.f_files);
+	printf("\nfiles free : %s",info.f_ffree);
+}
+	
